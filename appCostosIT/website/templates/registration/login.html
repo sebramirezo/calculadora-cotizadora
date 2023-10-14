@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card text-center">
+              <div class="card-body">
+                <h1>Iniciar Sesión</h1>
+                <div class="col-12">
+                    {{ form.username.label_tag }} {{ form.username }}
+                </div>
+                <div class="col-12">
+                    {{ form.password.label_tag }} {{ form.password }}
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+                </div>
+              </div>
+            </div>
+            </div>
+        </div>
+    </form>
+</body>
+
+{% endblock %}

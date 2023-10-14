@@ -1,0 +1,34 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Edición de Licencia</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/editarLicencia/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="cod_lic" value="{{licencias.cod_lic}}" class="form-control" placeholder="Código"
+                            minlength="1" maxlength="6" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nom_lic" value="{{licencias.nom_lic}}" class="form-control" placeholder="Nombre"
+                            maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="tipo_lic" value="{{licencias.tipo_lic}}" class="form-control" placeholder="Nombre"
+                            maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="costo_uf" value="{{licencias.costo_uf}}" class="form-control" placeholder="Valor" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

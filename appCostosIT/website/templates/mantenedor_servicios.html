@@ -1,0 +1,37 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Mantenedor Servicios</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-primary">
+              <thead>
+                  <tr>
+                      <th scope="col">Codigo</th>
+                      <th scope="col">Nombre Servicio</th>
+                      <th scope="col">Valor unitario</th>
+                      <th scope="col">Edición</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for servicio in servicios %}
+                  <tr class="">
+                      <td scope="row">{{servicio.cod_servicio}}</td>
+                      <td>{{servicio.nom_servicio}}</td>
+                      <td>{{servicio.valor_unit}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="edicionServicio/{{servicio.cod_servicio}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="eliminarServicio/{{servicio.cod_servicio}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="registrarServicio/" role="button">Añadir Servicio</a>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

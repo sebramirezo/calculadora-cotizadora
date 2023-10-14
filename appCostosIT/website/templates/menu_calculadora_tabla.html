@@ -1,0 +1,180 @@
+{% block content %}
+<hr>
+<div class="col">
+    <div class="col">
+        <h2>Recursos</h2>
+        <br>
+        <div class="table-responsive">
+            <form class="container" method="post" id="myForm">
+                {% csrf_token %}
+                <table class="table table-stripe">
+                    <thead>
+                        <tr>
+                            <th scope="col">Tipo Recurso</th>
+                            <th scope="col">Especificación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Nombre</th>
+                            <td>
+                                <!-- <p>MV VMware</p> -->
+                                {{ form_nom.nom_serv }}
+                                {{ form_uf }}
+                                {{ form_nom.cant_serv }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Procesador</th>
+                            <td>
+                                <div class="col">
+                                    <button class="btn btn-primary" type="button" id="cpu_decrement">-</button>
+                                    {{ form.cpu_choice }}
+                                    <button class="btn btn-primary" type="button" id="cpu_increment">+</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Memoria RAM</th>
+                            <td>
+                                <div class="col">
+                                    <button class="btn btn-primary" type="button" id="ram_decrement">-</button>
+                                    {{ form.ram_choice }}
+                                    <button class="btn btn-primary" type="button" id="ram_increment">+</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Disco Duro</th>
+                            <td>
+                                <div class="col">
+                                    <button class="btn btn-primary" type="button" id="decrement">-</button>
+                                    {{ form.dd_choice }}
+                                    <button class="btn btn-primary" type="button" id="increment">+</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="accordion" id="acordeon-recursos" style="position: relative; overflow: auto;">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseOne">
+                                Licencias
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="col">
+                                    <div class="col">
+                                        <h4>Licencias</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-stripe">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col">Tipo</th>
+                                                        <th scope="col">Aplica</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for licencia in list_licencias %}
+                                                    <tr>
+                                                        <td>{{ licencia.nom_lic }}</td>
+                                                        <td>{{ licencia.tipo_lic }}</td>
+                                                        <td>
+                                                            {% if licencia.estado %}
+                                                            <div class="form-check">
+                                                                <input class="form-check-input"
+                                                                    style="height: 2em; width: 2em; float: none;"
+                                                                    type="checkbox" checked="checked"
+                                                                    value={{licencia.cod_lic}} name="boxes_lic">
+                                                            </div>
+                                                            {% else %}
+                                                            <div class="form-check">
+                                                                <input class="form-check-input"
+                                                                    style="height: 2em; width: 2em; float: none;"
+                                                                    type="checkbox" value={{licencia.cod_lic}}
+                                                                    name="boxes_lic">
+                                                            </div>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion" id="acordeon-recursos" style="position: relative; overflow: auto;">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapseTwo">
+                                Hora Hombre
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <div class="col">
+                                    <div class="col">
+                                        <h4>Servicios</h4>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table table-stripe">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col">Porcentaje</th>
+                                                        <th scope="col">Aplica</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for servicio in list_servicios %}
+                                                    <tr>
+                                                        <td>{{ servicio }}</td>
+                                                        <td>{{ form_servicios.porcentaje }}</td>
+                                                        <td>
+                                                            {% if servicio.estado %}
+                                                            <div class="form-check">
+                                                                <input class="form-check-input"
+                                                                    style="height: 2em; width: 2em; float: none;"
+                                                                    type="checkbox" checked="checked"
+                                                                    value={{servicio.cod_servicio}} name="boxes">
+                                                            </div>
+                                                            {% else %}
+                                                            <div class="form-check">
+                                                                <input class="form-check-input"
+                                                                    style="height: 2em; width: 2em; float: none;"
+                                                                    type="checkbox" value={{servicio.cod_servicio}}
+                                                                    name="boxes">
+                                                            </div>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <a href=''><button class="btn btn-warning" type="submit" value="Calcular"
+                        id="boton_calculo">Calcular</button></a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

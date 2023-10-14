@@ -1,0 +1,96 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Mantenedor de Valores Disco Duro (ddValues)</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-primary">
+              <thead>
+                  <tr>
+                      <th scope="col">Código</th>
+                      <th scope="col">Valor</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for value in ddValues %}
+                  <tr class="">
+                      <td scope="row">{{value.cod_value}}</td>
+                      <td>{{value.label}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="edicionDdValue/{{value.cod_value}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="eliminarDdValue/{{value.cod_value}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="registrarDdValue/" role="button">Añadir Valor a ddValues</a>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- otro -->
+  <div class="container">
+    <h1>Mantenedor de Valores Memoria Ram (ramValues)</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-primary">
+              <thead>
+                  <tr>
+                      <th scope="col">Código</th>
+                      <th scope="col">Valor</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for value in ramValues %}
+                  <tr class="">
+                      <td scope="row">{{value.cod_value}}</td>
+                      <td>{{value.label}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="edicionRamValue/{{value.cod_value}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="eliminarRamValue/{{value.cod_value}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="registrarRamValue/" role="button">Añadir Valor a ramValues</a>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- Otro -->
+  <div class="container">
+    <h1>Mantenedor de Valores vCPU (cpuValues)</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-primary">
+              <thead>
+                  <tr>
+                      <th scope="col">Código</th>
+                      <th scope="col">Valor</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for value in cpuValues %}
+                  <tr class="">
+                      <td scope="row">{{value.cod_value}}</td>
+                      <td>{{value.label}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="edicionCpuValue/{{value.cod_value}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="eliminarCpuValue/{{value.cod_value}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="registrarCpuValue/" role="button">Añadir Valor a cpuValues</a>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

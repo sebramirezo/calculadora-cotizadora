@@ -1,0 +1,95 @@
+<h2>Cálculos</h2>
+<hr>
+<div class="row row-cols-3">
+    <div class="col">
+        <h4>Recursos Servidor</h4>
+        <div class="row m-1">
+            <p>Nombre Servidor</p>
+        </div>
+        <div class="row m-1">
+            <p>Procesador (vCPU)</p>
+        </div>
+        <div class="row m-1">
+            <p>Memoria RAM (GB)</p>
+        </div>
+        <div class="row m-1">
+            <p>Disco Duro (GB)</p>
+        </div>
+    </div>
+    {% block content %}
+    <div class="col">
+        <h4>Especificación</h4>
+        <form class="container" method = "post" id="myForm">
+            {% csrf_token %}
+            <div class="col">
+                <!-- {{ form.cpu_valor }} -->
+                <!-- {{ form.ram_valor }} -->
+                <!-- {{ form.dd_valor }} -->
+                <!-- {{ form.monto }} -->
+                <!-- {{ errors }} -->
+                <h4>Name</h4>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="button" id="cpu_decrement">-</button>
+                {{ form.cpu_choice }}
+                <button class="btn btn-primary" type="button" id="cpu_increment">+</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="button" id="ram_decrement">-</button>
+                {{ form.ram_choice }}
+                <button class="btn btn-primary" type="button" id="ram_increment">+</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="button" id="decrement">-</button>
+                {{ form.dd_choice }}
+                <button class="btn btn-primary" type="button" id="increment">+</button>
+            </div>
+            <hr>
+            <input class="btn btn-warning" type="submit" value="Calcular">
+    </div>
+    <div class="col">
+        <div class="col">
+            <h4>Servicios</h4>
+            <br>
+            <div class="table-responsive">
+                <table class="table table-stripe">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Aplica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for servicio in list_servicios %}
+                        <tr>
+                            <!-- <td scope="row">{{servicio.cod_servicio}}</td> -->
+                            <td>{{ servicio }}</td>
+                            <!-- <td>
+                                <input type="checkbox" name="checkbox" id="checkbox" value={{servicio.id}}>
+                            </td> -->
+                            <td>
+                                {% if servicio.estado %}
+                                <div class="form-check">
+                                    <input class="form-check-input" style="height: 2em; width: 2em; float: none;" type="checkbox" checked="checked" value={{servicio.cod_servicio}} name="boxes">
+                                </div>
+                                {% else %}
+                                <div class="form-check">
+                                    <input class="form-check-input" style="height: 2em; width: 2em; float: none;" type="checkbox"  value={{servicio.cod_servicio}} name="boxes">
+                                </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+            
+
+
+
+
+{% endblock %}

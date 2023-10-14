@@ -1,0 +1,39 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<div class="container">
+    <h1>Mantenedor Licencias</h1>
+    <div class="mantenedor">
+      <div class="table-responsive">
+          <table class="table table-primary">
+              <thead>
+                  <tr>
+                      <th scope="col">Codigo</th>
+                      <th scope="col">Nombre Licencia</th>
+                      <th scope="col">Tipo Licencia</th>
+                      <th scope="col">Valor Unitario</th>
+                      <th scope="col">Edición</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for licencia in licencias %}
+                  <tr class="">
+                      <td scope="row">{{licencia.cod_lic}}</td>
+                      <td>{{licencia.nom_lic}}</td>
+                      <td>{{licencia.tipo_lic}}</td>
+                      <td>{{licencia.costo_uf}}</td>
+                      <td>
+                          <a name="" id="" class="btn btn-primary" href="edicionLicencia/{{licencia.cod_lic}}" role="button">Editar</a>
+                          <a name="" id="" class="btn btn-danger" href="eliminarLicencia/{{licencia.cod_lic}}" role="button">Eliminar</a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <div class="container">
+            <a name="" id="" class="btn btn-primary" href="registrarLicencia/" role="button">Añadir Servicio</a>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

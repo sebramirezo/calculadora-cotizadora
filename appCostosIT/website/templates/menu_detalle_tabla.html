@@ -1,0 +1,119 @@
+{% load humanize %}
+<hr>
+<div class="row">
+    <div class="col">
+        <h2 id="detalle_ancla">Detalle de Cálculo</h2>
+        <div class="container">
+            {% block content %}
+            <table class="table table-stripe" id="detalle_tabla">
+                <thead>
+                    <tr>
+                        <th scope="col">Recurso</th>
+                        <th style="text-align: center;" scope="col">Especificación</th>
+                        <th scope="col">Unidad</th>
+                        <th style="text-align: right;" scope="col">Monto Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    <tr>
+                        <td>Servidor</td>
+                        <td style="text-align: center;">
+                            <label>{{nom_servidor}}</label>
+                        </td>
+                        <td> {{cant_serv}} </td>
+                    </tr>
+                    <tr>
+                        <td>Valor UF</td>
+                        <td style="text-align: center;">
+                            <label>{{ value }}</label>
+                        </td>
+                        <td> CLP </td>
+                    </tr>
+                    <tr>
+                        <td>CPU</td>
+                        <td style="text-align: center;">{{ cpu_choice_label }}</td>
+                        <td>vCPU</td>
+                        <td style="text-align: right;">{{ resultado_cpu }}</td>
+                        <td>UF</td>
+                    </tr>
+                    <tr>
+                        <td>RAM</td>
+                        <td style="text-align: center;">{{ ram_choice_label }}</td>
+                        <td>GB</td>
+                        <td style="text-align: right;">{{ resultado_ram }}</td>
+                        <td>UF</td>
+                    </tr>
+                    <tr>
+                        <td>DD</td>
+                        <td style="text-align: center;">{{ dd_choice_label }}</td>
+                        <td>GB</td>
+                        <td style="text-align: right;">{{ resultado_dd }}</td>
+                        <td>UF</td>
+                    </tr>
+                    <tr>
+                        <td><hr></td>
+                        <td>Subtotal en UF (Recursos)</td>
+                        <td><hr></td>
+                        <td style="text-align: right;"><b>{{ suma }}</b></td>
+                        <td><b>UF</b></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Servicio</th>
+                        <th scope="col">Especificación</th>
+                        <th scope="col">Monto Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                    {% for box, valor in valores %}
+                        <tr>
+                            <td>Servicios</td>
+                            <td>{{box}}</td>
+                            <td style="text-align: right;">$ {{valor}}</td>
+                            <td>CLP</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th scope="col">Licencia</th>
+                        <th scope="col">Especificación</th>
+                        <th scope="col">Monto</th>
+                        <th scope="col"></th>
+                    </tr>
+                    {% for box1, valor in valores_lic %}
+                        <tr>
+                            <td>Licencias</td>
+                            <td>{{box1}}</td>
+                            <td style="text-align: right;">$ {{valor}}</td>
+                            <td>CLP</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><hr></td>
+                        <td>Total en CLP</td>
+                        <td style="text-align: right;"><b>$ {{ total }}</b></td>
+                        <td><b>CLP</b></td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de Cálculo:</td>
+                        <td>{{fecha_actual}}</td>
+                        <td>Usuario:</td>
+                        {% if user.is_authenticated %}
+                            <td>{{user}}</td>
+                        {% else %}
+                            <td>Invitado</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row" id="detalle">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-warning" type="submit" name='limpiar' value="Limpiar">
+                    <button class="btn btn-secondary" type="button" id="btnCopiarTabla">Copiar Tabla</button>
+                    <button class="btn btn-primary" type="submit" id="btnGuardar">Guardar en BBDD</button>
+                </form>
+                <!-- <button class="btn btn-danger" type="submit" name='limpiar' value="">Actualizar Valor API</button> -->
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>

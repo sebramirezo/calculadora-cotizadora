@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://web-uc-prod.s3.amazonaws.com/uc-cl/dist/images/favicon.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://kit-digital-uc-prod.s3.amazonaws.com/uc-kitdigital/css/uc-kitdigital.css"
+    />
+    <!-- Bootstrap -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Styles -->
+    <link href="{% static 'css/estilos.css' %}" rel="stylesheet" type="text/css">
+    <title>Calculadora</title>
+  </head>
+<body>
+    <!-- Header global -->
+    <header class="uc-header">
+      <div id="uc-global-topbar"></div>
+      <nav class="uc-navbar">
+        <!-- Menú para versión Escritorio -->
+        <div class="container d-none d-lg-block">
+          <div class="row align-items-center">
+            <div class="col-lg-3 col-xl-2">
+              <img src="https://kit-digital-uc-desa.s3.amazonaws.com/img/logo-uc-azul.svg" alt="Pontificia Universidad Católica de Chile" class="img-fluid">
+            </div>
+            <div class="col-lg-8 col-xl-9 pl-60">
+              <div class="h2 text-font--serif text-color--blue mt-24">Calculadora de Costos </div>
+              <div class="text-color--gray p-size--lg">
+                {% if user.is_authenticated %}
+                  <a href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a>
+                {% else %}
+                  <!-- <p>Debes Iniciar Sesión</p> -->
+                  <a href="{% url 'login' %}">Iniciar Sesión</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <ul class="uc-navbar_nav" style="position: relative; z-index: 99;">
+            <li class="nav-item ">
+              <a href="/calculadora" class="uc-btn btn-inline">Calculadora</a>
+            </li>
+            <li class="nav-item uc-navbar-dropdown">
+              <a href="/mantenedor_licencias" class="uc-btn btn-inline">Mantenedor Licencias</a>
+            </li>
+            <li class="nav-item uc-navbar-dropdown">
+              <a href="/mantenedor_recursos" class="uc-btn btn-inline">Mantenedor Recursos</a>
+            </li>
+            <li class="nav-item ">
+              <a href="/mantenedor_servicios" class="uc-btn btn-inline">Mantenedor Servicios</a>
+            </li>
+            <li class="nav-item ">
+              <a href="/mantenedor_values" class="uc-btn btn-inline">Mantenedor Values</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+      {% block body %}
+
+      {% endblock %}
+    </div>
+    <!-- Footer global -->
+    <!-- <div id="uc-global-footer"></div> -->
+  </body>
+  <footer>
+    <div id="dd-values-count" data-count="{{ dd_values_count }}"></div>
+    <div id="ram-values-count" data-count="{{ ram_values_count }}"></div>
+    <div id="cpu-values-count" data-count="{{ cpu_values_count }}"></div>
+  </footer>
+  <script src="https://kit-digital-uc-prod.s3.amazonaws.com/uc-kitdigital/js/uc-kitdigital.js"></script>
+  <!-- Bootstrap -->
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Para copiar al portapapeles -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const resetButton = document.getElementById("reset-button");
+        const form = document.getElementById("myForm");
+        const ddChoiceField = form.querySelector("#id_dd_choice");
+        const incrementButton = form.querySelector("#increment");
+        const decrementButton = form.querySelector("#decrement");
+        // 
+        const cpuChoiceField = form.querySelector("#id_cpu_choice");
+        const ramChoiceField = form.querySelector("#id_ram_choice");
+        const cpuIncrementButton = form.querySelector("#cpu_increment");
+        const cpuDecrementButton = form.querySelector("#cpu_decrement");
+        const ramIncrementButton = form.querySelector("#ram_increment");
+        const ramDecrementButton = form.querySelector("#ram_decrement");
+        //
+        const ddValuesCount = parseInt(document.getElementById("dd-values-count").getAttribute("data-count"));
+        const ramValuesCount = parseInt(document.getElementById("ram-values-count").getAttribute("data-count"));
+        const cpuValuesCount = parseInt(document.getElementById("cpu-values-count").getAttribute("data-count"));
+    
+        incrementButton.addEventListener("click", function () {
+            // Obtén el valor actual del campo y conviértelo a un número entero
+            let currentValue = parseInt(ddChoiceField.value);
+            
+            // Incrementa el valor en 1, si no excede el límite superior
+            if (currentValue < ddValuesCount) {
+                currentValue++;
+            }
+            
+            // Actualiza el valor del campo ChoiceField
+            ddChoiceField.value = currentValue.toString();
+        });
+    
+        decrementButton.addEventListener("click", function () {
+            // Obtén el valor actual del campo y conviértelo a un número entero
+            let currentValue = parseInt(ddChoiceField.value);
+            
+            // Disminuye el valor en 1, si no excede el límite inferior
+            if (currentValue > 1) {
+                currentValue--;
+            }
+            
+            // Actualiza el valor del campo ChoiceField
+            ddChoiceField.value = currentValue.toString();
+        });
+
+        cpuIncrementButton.addEventListener("click", function () {
+            // Obtén el valor actual del campo y conviértelo a un número entero
+            let currentValue = parseInt(cpuChoiceField.value);
+            
+            // Incrementa el valor en 1, si no excede el límite superior
+            if (currentValue < cpuValuesCount) {
+                currentValue++;
+            }
+            
+            // Actualiza el valor del campo ChoiceField
+            cpuChoiceField.value = currentValue.toString();
+        });
+
+        cpuDecrementButton.addEventListener("click", function () {
+            // Obtén el valor actual del campo y conviértelo a un número entero
+            let currentValue = parseInt(cpuChoiceField.value);
+            
+            // Disminuye el valor en 1, si no excede el límite inferior
+            if (currentValue > 1) {
+                currentValue--;
+            }
+            
+            // Actualiza el valor del campo ChoiceField
+            cpuChoiceField.value = currentValue.toString();
+        });
+
+        ramIncrementButton.addEventListener("click", function () {
+            // Obtén el valor actual del campo y conviértelo a un número entero
+            let currentValue = parseInt(ramChoiceField.value);
+            
+            // Incrementa el valor en 1, si no excede el límite superior
+            if (currentValue < ramValuesCount) {
+                currentValue++;
+            }
+            
+            // Actualiza el valor del campo ChoiceField
+            ramChoiceField.value = currentValue.toString();
+        });
+
+        ramDecrementButton.addEventListener("click", function () {
+            // Obtén el valor actual del campo y conviértelo a un número entero
+            let currentValue = parseInt(ramChoiceField.value);
+            
+            // Disminuye el valor en 1, si no excede el límite inferior
+            if (currentValue > 1) {
+                currentValue--;
+            }
+            
+            // Actualiza el valor del campo ChoiceField
+            ramChoiceField.value = currentValue.toString();
+        });
+    });
+    document.getElementById('btnCopiarTabla').addEventListener('click', function () {
+        // Selecciona la tabla
+        var tabla = document.getElementById('detalle_tabla');
+        var rango = document.createRange();
+        rango.selectNode(tabla);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(rango);
+
+        // Copia la tabla al portapapeles
+        try {
+            document.execCommand('copy');
+            alert('La tabla ha sido copiada al portapapeles.');
+        } catch (e) {
+            alert('No se pudo copiar la tabla al portapapeles. Por favor, seleccione y copie manualmente.');
+        }
+
+        // Deselecciona la tabla
+        window.getSelection().removeAllRanges();
+    });
+    </script>

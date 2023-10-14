@@ -1,0 +1,33 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Edición de Recurso</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/editarRecurso/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="">Código Autoincrementable</label>
+                        <input type="text" name="cod_rec" value="{{recursos.cod_rec}}" class="form-control" placeholder="Código"
+                            minlength="6" maxlength="6" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Tipo de Recurso</label>
+                        <input type="text" name="nom_rec" value="{{recursos.nom_rec}}" class="form-control" placeholder="Nombre"
+                            maxlength="50" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Valor Unitario</label>
+                        <input type="text" name="valor_unit" value="{{recursos.valor_unit}}" class="form-control" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white m-2">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

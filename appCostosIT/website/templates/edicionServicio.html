@@ -1,0 +1,33 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Edición de Servicio de HH</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/editarServicio/" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="">Código Autoincrementable</label>
+                        <input type="text" name="cod_servicio" value="{{servicios.cod_servicio}}" class="form-control" placeholder="Código"
+                            minlength="6" maxlength="6" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nombre del Servicio</label>
+                        <input type="text" name="nom_servicio" value="{{servicios.nom_servicio}}" class="form-control" placeholder="Ingresa un nombre"
+                            maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Valor Unitario</label>
+                        <input type="text" name="valor_unit" value="{{servicios.valor_unit}}" class="form-control" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white m-2">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
