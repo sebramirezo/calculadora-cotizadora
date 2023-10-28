@@ -26,9 +26,8 @@ SECRET_KEY = 'django-insecure-kuwqtd5xajmub_(_u8tsh*vkc-4ne2s@ez!!$f@q9wwl^mf-g1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'msqldes.uc.cl', 'calculadora.des.uc.cl']
+ALLOWED_HOSTS = ['127.0.0.1']
 
-CSRF_TRUSTED_ORIGINS=['https://calculadora.des.uc.cl']
 
 LOGGING = {
     'version': 1,
@@ -55,7 +54,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'website.apps.WebsiteConfig'
+    'website.apps.WebsiteConfig',
+    'mathfilters',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -101,29 +101,17 @@ WSGI_APPLICATION = 'appCostosIT.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-#BBDD UC
+#BBDD LOCAL
 DATABASES = {
         'default': {
             'ENGINE': 'mysql.connector.django',
-            'NAME': 'bdsopcalculadora',
-            'USER': 'usr_bdsopcalculadora', 
-            'PASSWORD': 'bdCal#2908',
-            'HOST': 'msqldes.uc.cl',
-            'PORT': '3312',
+            'NAME': 'calculadora_costos',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '3306',
         }
     }
-
-#BBDD LOCAL
-# DATABASES = {
-#         'default': {
-#             'ENGINE': 'mysql.connector.django',
-#             'NAME': 'calculadora_costos',
-#             'USER': 'root',
-#             'PASSWORD': '',
-#             'HOST': 'localhost',
-#             'PORT': '3306',
-#         }
-#     }
 
 
 # Password validation

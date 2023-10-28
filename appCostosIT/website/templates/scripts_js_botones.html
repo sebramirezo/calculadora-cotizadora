@@ -1,0 +1,103 @@
+<script>
+// ESTE DOCUMENTO CONTIENE LA LÓGICA PARA IMPLEMENTAR LOS BOTONES DE AUMENTO Y DISMINUCIÓN DE LOS CHOICES, LOS CUALES ESTAN COMENTADOS
+// POR UN MAL FUNCIONAMIENTO DEL ID, EL CUAL NO ES CORRELATIVO Y TIENE PROBLEMAS AL REALIZAR LA OPERACIÓN DE CONTEO MEDIANTE EL ID.
+// ESTE CÓÐIGO PUEDE SERVIR PARA LA POSTERIDAD, POR LO TANTO, LO DEJO Y NO LO BORRO.
+// PARA IMPLEMENTARLO DEBE COPIARLO EN EL BASE.HTML EN LAS ETIQUETAS SCRIPT SIN LOS LAS ETIQUETAS SCRIPT DE ESTE HTML.
+// O PUEDE QUITARLE LAS ETIQUETAS DE ACA Y REFERENCIARLO EN EL BASE.HTML COMO {% include 'scripts_js_botones.html' %}
+document.addEventListener("DOMContentLoaded", function () {
+    const resetButton = document.getElementById("reset-button");
+    const form = document.getElementById("myForm");
+    const ddChoiceField = form.querySelector("#id_dd_choice");
+    const incrementButton = form.querySelector("#increment");
+    const decrementButton = form.querySelector("#decrement");
+    // 
+    const cpuChoiceField = form.querySelector("#id_cpu_choice");
+    const ramChoiceField = form.querySelector("#id_ram_choice");
+    const cpuIncrementButton = form.querySelector("#cpu_increment");
+    const cpuDecrementButton = form.querySelector("#cpu_decrement");
+    const ramIncrementButton = form.querySelector("#ram_increment");
+    const ramDecrementButton = form.querySelector("#ram_decrement");
+    //
+    const ddValuesCount = parseInt(document.getElementById("dd-values-count").getAttribute("data-count"));
+    const ramValuesCount = parseInt(document.getElementById("ram-values-count").getAttribute("data-count"));
+    const cpuValuesCount = parseInt(document.getElementById("cpu-values-count").getAttribute("data-count"));
+
+    incrementButton.addEventListener("click", function () {
+        // Obtén el valor actual del campo y conviértelo a un número entero
+        let currentValue = parseInt(ddChoiceField.value);
+        
+        // Incrementa el valor en 1, si no excede el límite superior
+        if (currentValue <= ddValuesCount) {
+            currentValue++;
+        }
+        
+        // Actualiza el valor del campo ChoiceField
+        ddChoiceField.value = currentValue.toString();
+    });
+
+    decrementButton.addEventListener("click", function () {
+        // Obtén el valor actual del campo y conviértelo a un número entero
+        let currentValue = parseInt(ddChoiceField.value);
+        
+        // Disminuye el valor en 1, si no excede el límite inferior
+        if (currentValue > 1) {
+            currentValue--;
+        }
+        
+        // Actualiza el valor del campo ChoiceField
+        ddChoiceField.value = currentValue.toString();
+    });
+
+    cpuIncrementButton.addEventListener("click", function () {
+        // Obtén el valor actual del campo y conviértelo a un número entero
+        let currentValue = parseInt(cpuChoiceField.value);
+        
+        // Incrementa el valor en 1, si no excede el límite superior
+        if (currentValue < cpuValuesCount) {
+            currentValue++;
+        }
+        
+        // Actualiza el valor del campo ChoiceField
+        cpuChoiceField.value = currentValue.toString();
+    });
+
+    cpuDecrementButton.addEventListener("click", function () {
+        // Obtén el valor actual del campo y conviértelo a un número entero
+        let currentValue = parseInt(cpuChoiceField.value);
+        
+        // Disminuye el valor en 1, si no excede el límite inferior
+        if (currentValue > 1) {
+            currentValue--;
+        }
+        
+        // Actualiza el valor del campo ChoiceField
+        cpuChoiceField.value = currentValue.toString();
+    });
+
+    ramIncrementButton.addEventListener("click", function () {
+        // Obtén el valor actual del campo y conviértelo a un número entero
+        let currentValue = parseInt(ramChoiceField.value);
+        
+        // Incrementa el valor en 1, si no excede el límite superior
+        if (currentValue < ramValuesCount) {
+            currentValue++;
+        }
+        
+        // Actualiza el valor del campo ChoiceField
+        ramChoiceField.value = currentValue.toString();
+    });
+
+    ramDecrementButton.addEventListener("click", function () {
+        // Obtén el valor actual del campo y conviértelo a un número entero
+        let currentValue = parseInt(ramChoiceField.value);
+        
+        // Disminuye el valor en 1, si no excede el límite inferior
+        if (currentValue > 1) {
+            currentValue--;
+        }
+        
+        // Actualiza el valor del campo ChoiceField
+        ramChoiceField.value = currentValue.toString();
+    });
+});
+</script>

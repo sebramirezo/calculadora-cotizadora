@@ -10,6 +10,8 @@ urlpatterns = [
     path('mantenedor_recursos', views.mantenedorRecurso, name='mantenedor_recursos'),
     path('edicionRecurso/<int:cod_rec>', views.edicionRecurso, name='edicionRecurso'),
     path('editarRecurso/', views.editarRecurso, name='editarRecurso'),
+    path('registrarRecurso/', views.registrarRecurso, name='registrarRecurso'),
+    path('eliminarRecurso/<cod_rec>', views.eliminarRecurso, name='eliminarRecurso'),
     ## Mantenedores y vistas de Servicio
     path('mantenedor_servicios', views.mantenedorServicio, name='mantenedor_servicios'),
     path('edicionServicio/<int:cod_servicio>', views.edicionServicio, name='edicionServicio'),

@@ -6,25 +6,38 @@
         <h2>Edición de Recurso</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/editarRecurso/" method="POST">{% csrf_token %}
-                    <div class="form-group">
+                <form id="formRecurso" onsubmit="return validateForm2()" action="/editarRecurso/" method="POST">{% csrf_token %}
+                    {% for recurso in recursosx %}
+                    <div class="form-group" hidden>
                         <label for="">Código Autoincrementable</label>
                         <input type="text" name="cod_rec" value="{{recursos.cod_rec}}" class="form-control" placeholder="Código"
                             minlength="6" maxlength="6" readonly required>
                     </div>
                     <div class="form-group">
                         <label for="">Tipo de Recurso</label>
-                        <input type="text" name="nom_rec" value="{{recursos.nom_rec}}" class="form-control" placeholder="Nombre"
-                            maxlength="50" readonly required>
+                            {% if recurso.cod_rec < 6 %}
+                                <input type="text" name="nom_rec" value="{{recursos.nom_rec}}" class="form-control" placeholder="Nombre"
+                                    maxlength="50" readonly required>
+                            {% else %}
+                                <input type="text" name="nom_rec" value="{{recursos.nom_rec}}" class="form-control" placeholder="Nombre"
+                                maxlength="50" required>
+                            {% endif %}
                     </div>
                     <div class="form-group">
                         <label for="">Valor Unitario</label>
-                        <input type="text" name="valor_unit" value="{{recursos.valor_unit}}" class="form-control" min="1" max="9"
+                        <input type="text" name="valor_unit" id="valor_unit" value="{{recursos.valor_unit}}" class="form-control" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Unidad</label>
+                        <input type="text" name="unidad" value="{{recursos.unidad}}" class="form-control" min="1" max="9"
                             value="1" required>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-success btn-block text-white m-2">Guardar</button>
                     </div>
+                    {% endfor %}
+
                 </form>
             </div>
         </div>

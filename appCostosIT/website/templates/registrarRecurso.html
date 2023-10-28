@@ -1,0 +1,43 @@
+{% extends "./base.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Añadir Recurso</h2>
+        <div class="card">
+            <div class="card-body">
+                <form onsubmit="return validateForm2()" action="/registrarRecurso/" method="POST">{% csrf_token %}
+                    <div class="form-group" hidden>
+                        <label for="">Código Autoincrementable</label>
+                        <input type="text" name="cod_rec" value="{{recursos.cod_rec}}" class="form-control" placeholder="Código"
+                            minlength="1" maxlength="6" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nombre del Recurso</label>
+                        <input type="text" name="nom_rec" value="{{recursos.nom_rec}}" class="form-control" placeholder="Ingresa un nombre"
+                            maxlength="50" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Valor Unitario</label>
+                        <input type="text" name="valor_unit" id="valor_unit" value="{{recursos.valor_unit}}" class="form-control" placeholder="Valor" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Unidad</label>
+                        <input type="text" name="unidad" value="{{recursos.unidad}}" class="form-control" placeholder="Ingrese unidad (GB, TB, etc)" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="">Cantidad</label>
+                        <input type="text" name="cantidad" value="0" class="form-control" placeholder="" min="1" max="9"
+                            value="1" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white m-2">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

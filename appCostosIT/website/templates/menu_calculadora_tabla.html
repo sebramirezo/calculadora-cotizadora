@@ -3,60 +3,123 @@
 <div class="col">
     <div class="col">
         <h2>Recursos</h2>
-        <br>
         <div class="table-responsive">
-            <form class="container" method="post" id="myForm">
+            <form  method="post" id="myForm" onsubmit="return validateForm()">
                 {% csrf_token %}
                 <table class="table table-stripe">
                     <thead>
                         <tr>
                             <th scope="col">Tipo Recurso</th>
                             <th scope="col">Especificación</th>
+                            <th scope="col">Unidad</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <th>Nombre</th>
                             <td>
-                                <!-- <p>MV VMware</p> -->
                                 {{ form_nom.nom_serv }}
-                                {{ form_uf }}
-                                {{ form_nom.cant_serv }}
                             </td>
                         </tr>
                         <tr>
-                            <th>Procesador</th>
+                            <th>Valor UF</th>
+                            <td>{{ form_uf.value }}</td>
+                        </tr>
+                        <tr>
+                            <th>Cantidad Servidores</th>
+                            <td>{{ form_nom.cant_serv }}</td>
+                        </tr>
+                        
+                        <tr>
+                            {% for recurso in list_recursos %}
+                                {% if recurso.cod_rec == 1 %}
+                                <th style="padding-top: 25px;">{{recurso.nom_rec}}
+                                    <small>({{recurso.valor_unit}})</small>
+                                </th>
+                                {% endif %}
+                            {% endfor %}
                             <td>
-                                <div class="col">
-                                    <button class="btn btn-primary" type="button" id="cpu_decrement">-</button>
+                                <div class="col" style="text-align: center;">
+                                    <!-- <button class="btn btn-primary" type="button" id="cpu_decrement">-</button> -->
                                     {{ form.cpu_choice }}
-                                    <button class="btn btn-primary" type="button" id="cpu_increment">+</button>
+                                    <!-- <button class="btn btn-primary" type="button" id="cpu_increment">+</button> -->
                                 </div>
                             </td>
+                            {% for recurso in list_recursos %}
+                                {% if recurso.cod_rec == 1 %}
+                                    <td style="padding-top: 25px;">
+                                        <span>{{recurso.unidad}}</span>
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
                         </tr>
                         <tr>
-                            <th>Memoria RAM</th>
+                            {% for recurso in list_recursos %}
+                                {% if recurso.cod_rec == 3 %}
+                                <th style="padding-top: 25px;">{{recurso.nom_rec}}
+                                    <small>({{recurso.valor_unit}})</small>
+                                </th>
+                                {% endif %}
+                            {% endfor %}
                             <td>
-                                <div class="col">
-                                    <button class="btn btn-primary" type="button" id="ram_decrement">-</button>
+                                <div class="col" style="text-align: center;">
+                                    <!-- <button class="btn btn-primary" type="button" id="ram_decrement">-</button> -->
                                     {{ form.ram_choice }}
-                                    <button class="btn btn-primary" type="button" id="ram_increment">+</button>
+                                    <!-- <button class="btn btn-primary" type="button" id="ram_increment">+</button> -->
                                 </div>
+                                {% for recurso in list_recursos %}
+                                {% if recurso.cod_rec == 3 %}
+                                    <td style="padding-top: 25px;">
+                                        <span>{{recurso.unidad}}</span>
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
                             </td>
                         </tr>
                         <tr>
-                            <th>Disco Duro</th>
+                            {% for recurso in list_recursos %}
+                                {% if recurso.cod_rec == 5 %}
+                                <th style="padding-top: 25px;">{{recurso.nom_rec}}
+                                    <small>({{recurso.valor_unit}})</small>
+                                </th>
+                                {% endif %}
+                            {% endfor %}
                             <td>
-                                <div class="col">
-                                    <button class="btn btn-primary" type="button" id="decrement">-</button>
+                                <div class="col" style="text-align: center;">
+                                    <!-- <button class="btn btn-primary" type="button" id="decrement">-</button> -->
                                     {{ form.dd_choice }}
-                                    <button class="btn btn-primary" type="button" id="increment">+</button>
+                                    <!-- <button class="btn btn-primary" type="button" id="increment">+</button> -->
                                 </div>
+                                {% for recurso in list_recursos %}
+                                    {% if recurso.cod_rec == 5 %}
+                                        <td style="padding-top: 25px;">
+                                            <span>{{recurso.unidad}}</span>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
                             </td>
                         </tr>
+                        <!-- tr con for -->
+                        {% for recurso in list_recursos %}
+                            {% if recurso.cod_rec > 5 %}
+                            <tr>
+                                <th>{{recurso}}</th>
+                                <!-- <td>{{form_recursos.cantidad}}</td> -->
+                                <td>
+                                    <div class="mb-3">
+                                        <!-- {{form_recursos.cantidad}} -->
+                                        <input type="number" class="form-control" name="cantidad{{recurso.cod_rec}}" id="recurso_dinamico" value="{{recurso.cantidad}}" aria-describedby="helpId" placeholder="Ingresa un valor" required>
+                                        <small class="form-text text-muted">Debes ingresar un valor acorde al recurso y su valor unitario <strong>{{recurso.valor_unit}}</strong></small>
+                                    </div>
+                                </td>
+                                <td>{{recurso.unidad}}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
+                        <!-- fin de tr con for -->
                     </tbody>
                 </table>
-                <div class="accordion" id="acordeon-recursos" style="position: relative; overflow: auto;">
+                <div class="accordion m-2" id="acordeon-recursos" style="position: relative; overflow: auto;">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -113,7 +176,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion" id="acordeon-recursos" style="position: relative; overflow: auto;">
+                <div class="accordion m-2" id="acordeon-recursos" style="position: relative; overflow: auto;">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -141,7 +204,9 @@
                                                     {% for servicio in list_servicios %}
                                                     <tr>
                                                         <td>{{ servicio }}</td>
-                                                        <td>{{ form_servicios.porcentaje }}</td>
+                                                        <td>
+                                                            {{servicio.porcentaje}}
+                                                        </td>
                                                         <td>
                                                             {% if servicio.estado %}
                                                             <div class="form-check">
@@ -171,10 +236,17 @@
                     </div>
                 </div>
                 <hr>
-                <a href=''><button class="btn btn-warning" type="submit" value="Calcular"
-                        id="boton_calculo">Calcular</button></a>
+                <a href=''><button class="btn btn-warning" type="submit" value="Calcular" id="boton_calculo">Calcular</button></a>
             </form>
         </div>
     </div>
 </div>
+<style>
+.form-select{
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+}
+</style>
 {% endblock %}

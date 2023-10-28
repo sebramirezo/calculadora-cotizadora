@@ -18,9 +18,10 @@
       href="https://kit-digital-uc-prod.s3.amazonaws.com/uc-kitdigital/css/uc-kitdigital.css"
     />
     <!-- Bootstrap -->
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- <link src="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <!-- Styles -->
-    <link href="{% static 'css/estilos.css' %}" rel="stylesheet" type="text/css">
+    <link src="{% static 'css/estilos.css' %}" type="text/css">
     <title>Calculadora</title>
   </head>
 <body>
@@ -66,6 +67,17 @@
         </div>
       </nav>
     </header>
+
+    <div class="">
+      <button style="color: rgb(16, 91, 148); border-color: rgb(16, 91, 148); background-color: rgb(241, 248, 254);" class="btn m-2" type="button" onclick="history.back()" name="volver atrás" value="Volver atrás">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+          </svg>
+          Volver átras
+      </button>
+      <!-- <input class="btn btn-warning m-2" type="button" onclick="history.back()" name="volver atrás" value="Volver atrás"> -->
+    </div>
+
     <div class="container">
       {% block body %}
 
@@ -81,124 +93,163 @@
   </footer>
   <script src="https://kit-digital-uc-prod.s3.amazonaws.com/uc-kitdigital/js/uc-kitdigital.js"></script>
   <!-- Bootstrap -->
-  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Para copiar al portapapeles -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const resetButton = document.getElementById("reset-button");
-        const form = document.getElementById("myForm");
-        const ddChoiceField = form.querySelector("#id_dd_choice");
-        const incrementButton = form.querySelector("#increment");
-        const decrementButton = form.querySelector("#decrement");
-        // 
-        const cpuChoiceField = form.querySelector("#id_cpu_choice");
-        const ramChoiceField = form.querySelector("#id_ram_choice");
-        const cpuIncrementButton = form.querySelector("#cpu_increment");
-        const cpuDecrementButton = form.querySelector("#cpu_decrement");
-        const ramIncrementButton = form.querySelector("#ram_increment");
-        const ramDecrementButton = form.querySelector("#ram_decrement");
-        //
-        const ddValuesCount = parseInt(document.getElementById("dd-values-count").getAttribute("data-count"));
-        const ramValuesCount = parseInt(document.getElementById("ram-values-count").getAttribute("data-count"));
-        const cpuValuesCount = parseInt(document.getElementById("cpu-values-count").getAttribute("data-count"));
-    
-        incrementButton.addEventListener("click", function () {
-            // Obtén el valor actual del campo y conviértelo a un número entero
-            let currentValue = parseInt(ddChoiceField.value);
-            
-            // Incrementa el valor en 1, si no excede el límite superior
-            if (currentValue < ddValuesCount) {
-                currentValue++;
-            }
-            
-            // Actualiza el valor del campo ChoiceField
-            ddChoiceField.value = currentValue.toString();
-        });
-    
-        decrementButton.addEventListener("click", function () {
-            // Obtén el valor actual del campo y conviértelo a un número entero
-            let currentValue = parseInt(ddChoiceField.value);
-            
-            // Disminuye el valor en 1, si no excede el límite inferior
-            if (currentValue > 1) {
-                currentValue--;
-            }
-            
-            // Actualiza el valor del campo ChoiceField
-            ddChoiceField.value = currentValue.toString();
-        });
 
-        cpuIncrementButton.addEventListener("click", function () {
-            // Obtén el valor actual del campo y conviértelo a un número entero
-            let currentValue = parseInt(cpuChoiceField.value);
-            
-            // Incrementa el valor en 1, si no excede el límite superior
-            if (currentValue < cpuValuesCount) {
-                currentValue++;
-            }
-            
-            // Actualiza el valor del campo ChoiceField
-            cpuChoiceField.value = currentValue.toString();
-        });
-
-        cpuDecrementButton.addEventListener("click", function () {
-            // Obtén el valor actual del campo y conviértelo a un número entero
-            let currentValue = parseInt(cpuChoiceField.value);
-            
-            // Disminuye el valor en 1, si no excede el límite inferior
-            if (currentValue > 1) {
-                currentValue--;
-            }
-            
-            // Actualiza el valor del campo ChoiceField
-            cpuChoiceField.value = currentValue.toString();
-        });
-
-        ramIncrementButton.addEventListener("click", function () {
-            // Obtén el valor actual del campo y conviértelo a un número entero
-            let currentValue = parseInt(ramChoiceField.value);
-            
-            // Incrementa el valor en 1, si no excede el límite superior
-            if (currentValue < ramValuesCount) {
-                currentValue++;
-            }
-            
-            // Actualiza el valor del campo ChoiceField
-            ramChoiceField.value = currentValue.toString();
-        });
-
-        ramDecrementButton.addEventListener("click", function () {
-            // Obtén el valor actual del campo y conviértelo a un número entero
-            let currentValue = parseInt(ramChoiceField.value);
-            
-            // Disminuye el valor en 1, si no excede el límite inferior
-            if (currentValue > 1) {
-                currentValue--;
-            }
-            
-            // Actualiza el valor del campo ChoiceField
-            ramChoiceField.value = currentValue.toString();
-        });
-    });
     document.getElementById('btnCopiarTabla').addEventListener('click', function () {
-        // Selecciona la tabla
-        var tabla = document.getElementById('detalle_tabla');
-        var rango = document.createRange();
-        rango.selectNode(tabla);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(rango);
+      // Selecciona la tabla
+      var tabla = document.getElementById('detalle_tabla');
+      var rango = document.createRange();
+      rango.selectNode(tabla);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(rango);
 
-        // Copia la tabla al portapapeles
-        try {
-            document.execCommand('copy');
-            alert('La tabla ha sido copiada al portapapeles.');
-        } catch (e) {
-            alert('No se pudo copiar la tabla al portapapeles. Por favor, seleccione y copie manualmente.');
+      // Copia la tabla al portapapeles
+      try {
+        document.execCommand('copy');
+        alert('La tabla ha sido copiada al portapapeles.');
+      } catch (e) {
+        alert('No se pudo copiar la tabla al portapapeles. Por favor, seleccione y copie manualmente.');
+      }
+
+      // Deselecciona la tabla
+      window.getSelection().removeAllRanges();
+    });
+    document.getElementById('btnExportarExcel').addEventListener('click', function () {
+      // Supongamos que copiedTableData contiene los datos copiados de la tabla (como lo hace en tu código original).
+      var copiedTableData = document.getElementById('detalle_tabla');
+
+      // Crear una nueva hoja en el libro y asignarle los datos copiados
+      var ws = XLSX.utils.table_to_sheet(copiedTableData);
+
+      // Crear un libro de Excel
+      var wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "MiHoja");
+
+      // Generar el archivo Excel en formato XLSX
+      var xlsxData = XLSX.write(wb, { bookType: "xlsx", bookSST: true, type: "binary" });
+
+      // Convertir los datos en un blob
+      var blob = new Blob([s2ab(xlsxData)], { type: "application/octet-stream" });
+
+      // Crear un objeto URL a partir del blob
+      var url = URL.createObjectURL(blob);
+
+      // Crear un enlace para descargar el archivo Excel
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "miarchivo.xlsx";
+      a.style.display = "none";
+      document.body.appendChild(a);
+
+      // Simular un clic en el enlace para iniciar la descarga
+      a.click();
+
+      // Limpiar el enlace y el objeto URL
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    // Función para convertir datos binarios a matriz de bytes
+    function s2ab(s) {
+      var buf = new ArrayBuffer(s.length);
+      var view = new Uint8Array(buf);
+      for (var i = 0; i != s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+      return buf;
+    }
+
+    function validateForm() {
+      var inputValue = document.getElementById("value").value;
+      var inputCantServ = document.getElementById("id_cant_serv").value;
+      if (inputValue < 0) {
+        alert("Valor UF no puede tener un valor negativo.");
+        return false; // Prevent form submission
+      }
+      if (inputCantServ < 0) {
+        alert("Cantidad Servidores no puede tener un valor negativo.");
+        return false; // Prevent form submission
+      }
+      if (inputDinamico < 0) {
+        alert("No puede tener un valor negativo.");
+        return false; // Prevent form submission
+      }
+    }
+      if (inputValue.includes(",") || inputValue.includes(".")) {
+        // Replace ',' and '.' with ''
+        inputValue = inputValue.replace(/[,\.]/g, '');
+        document.getElementById("value").value = inputValue;
+      } else {
+        // Replace ',' and '.' with ''
+        inputValue = inputValue.replace(/[,\.]/g, '');
+        document.getElementById("value").value = inputValue;
+      }
+
+      function validateForm1() {
+        var inputValue = document.getElementById("costo_uf").value;
+        if (inputValue < 0) {
+            alert("Valor unitario no puede tener un valor negativo.");
+            return false; // Prevent form submission
+        }
+        if (inputValue.includes(",") || inputValue.includes(".")) {
+             // Replace ',' and '.' with ''
+             inputValue = inputValue.replace(/[,\.]/g, '');
+            document.getElementById("costo_uf").value = inputValue;
+            
+        } else {
+            alert("Valor unitario no debe contener punto ni coma.");
+            return false; // Prevent form submission
+        }
+      }
+
+      function validateForm2() {
+        var inputValue = document.getElementById("valor_unit").value;
+        if (inputValue < 0) {
+            alert("Valor unitario no puede tener un valor negativo.");
+            return false; // Prevent form submission
+        }
+      }
+
+      function validateForm3() {
+        var inputValue = document.getElementById("valor_unit").value;
+        if (inputValue < 0) {
+            alert("Valor unitario no puede tener un valor negativo.");
+            return false; // Prevent form submission
+        }
+        if (inputValue.includes(",") || inputValue.includes(".")) {
+             // Replace ',' and '.' with ''
+             alert("Valor unitario no debe contener punto ni coma.");
+            return false; // Prevent form submission
+        }
+      }
+
+      function validateForm4() {
+        var inputValue = document.getElementById("value").value;
+        if (inputValue < 0) {
+            alert("Valor unitario no puede tener un valor negativo.");
+            return false; // Prevent form submission
+        }
+      }
+
+      function validateForm5() {
+        var inputValue = document.getElementById("value").value;
+        if (inputValue < 0) {
+            alert("Valor unitario no puede tener un valor negativo.");
+            return false; // Prevent form submission
+        }
+      }
+
+      function validateForm6() {
+        var inputValue = document.getElementById("value").value;
+        if (inputValue < 0) {
+            alert("Valor unitario no puede tener un valor negativo.");
+            return false; // Prevent form submission
         }
 
-        // Deselecciona la tabla
-        window.getSelection().removeAllRanges();
-    });
-    </script>
+      }
+  </script>

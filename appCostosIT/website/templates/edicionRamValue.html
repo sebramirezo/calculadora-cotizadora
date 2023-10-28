@@ -8,15 +8,15 @@
         <h2>Editar Valor Memoria Ram</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/edicionRamValue/" method="POST">{% csrf_token %}
+                <form id="formRAM" onsubmit="return validateForm6()" action="/editarRamValue/" method="POST">{% csrf_token %}
                     <div class="form-group">
-                        <label for="">Código Autoincrementable</label>
+                        <label for="">Código Autoincrementable (Sólo Lectura)</label>
                         <input type="text" name="cod_value" value="{{ramValues.cod_value}}" class="form-control" placeholder="Código"
                             minlength="1" maxlength="6" readonly required>
                     </div>
                     <div class="form-group">
-                        <label for="">Cantidad RAM (GB)(Solo Número)</label>
-                        <input type="text" name="label" value="{{ramValues.label}}" class="form-control" placeholder="Ingresa Valor"
+                        <label for="">Cantidad RAM (GB) (Sólo Número)</label>
+                        <input type="number" name="label" id="value" value="{{ramValues.label}}" class="form-control" placeholder="Ingresa Valor"
                             maxlength="50" required>
                     </div>
                     <div class="form-group">

@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, ValidationError
 from .models import *
 from django import forms
 
@@ -100,31 +100,26 @@ class LicenciaForm(ModelForm):
         model = Licencia
         fields = ['cod_lic', 'nom_lic', 'tipo_lic', 'costo_uf']
 #
+class PorcentajeForm(forms.Form):
+    porcentaje = forms.DecimalField(widget=forms.TextInput(attrs={"class":"form-control", "name":"porcentaje", "id":"porcentaje"}), required=False)
+
+#
 class ServicioForm(ModelForm):
     nom_servicio = forms.CharField()
     # porcentaje = forms.DecimalField(widget=forms.TextInput(attrs={"class":"form-control", "name":"porcentaje"}))
     # estado = forms.BooleanField(label='Checkbox')
     class Meta:
         model = Servicio
-        fields = ['cod_servicio', 'nom_servicio', 'valor_unit', 'estado', 'porcentaje']
-
-    def __init__(self, *args, **kwargs):
-        super(ServicioForm, self).__init__(*args, **kwargs)
-        
-        # Crear campos dinámicos con atributos personalizados
-        list_servicios = Servicio.objects.all()
-        for servicio in list_servicios:
-            porcentaje = f"porcentaje{servicio.cod_servicio}"
-            self.fields[porcentaje] = forms.DecimalField(widget=forms.TextInput(attrs={"class":"form-control",'id': porcentaje}))
+        fields = ['cod_servicio', 'nom_servicio', 'valor_unit', 'estado']
 # 
 class RecursoForm(ModelForm):
     class Meta:
         model = Recurso
-        fields = ['cod_rec', 'nom_rec', 'valor_unit']
+        fields = ['cod_rec', 'nom_rec', 'valor_unit', 'unidad', 'cantidad']
 # 
 class ServidorForm(ModelForm):
     nom_serv = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder": "Ingresa un nombre"}), label='')
-    cant_serv = forms.IntegerField(widget=forms.TextInput(attrs={"class":"form-control", "placeholder":"Ingresa cantidad de servidores"}), label='')
+    cant_serv = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder":"Ingresa cantidad de servidores"}), label='')
     
     class Meta:
         model = Servidor
@@ -138,16 +133,16 @@ class MyForm(forms.Form):
 
 ##Bard##
 class servidor_has_recurso_editForm(ModelForm):
-    dd_choice = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), choices=ddValues)
-    ram_choice = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), choices=ramValues)
-    cpu_choice = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2"}), choices=cpuValues)
+    dd_choice = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2", "aria-label":"Selección de disco duro"}), choices=ddValues)
+    ram_choice = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2", "aria-label":"Selección de memoria ram"}), choices=ramValues)
+    cpu_choice = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-select m-2", "aria-label":"Selección de cpu"}), choices=cpuValues)
 
     class Meta:
         model = servidor_has_recurso_edit
         fields = ['dd_choice', 'cpu_choice', 'ram_choice']
 #
 class UFValueForm(ModelForm):
-    value = forms.FloatField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder":"Ingresa UF"}), label='Valor UF', required=True)
+    value = forms.FloatField(widget=forms.NumberInput(attrs={"class":"form-control", "placeholder":"Ingresa UF", 'id':'value'}), label='', required=True)
 
     class Meta:
         model = UFValue

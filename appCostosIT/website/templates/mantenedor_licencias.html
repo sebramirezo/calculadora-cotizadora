@@ -5,14 +5,14 @@
     <h1>Mantenedor Licencias</h1>
     <div class="mantenedor">
       <div class="table-responsive">
-          <table class="table table-primary">
+          <table class="table table-striped">
               <thead>
                   <tr>
-                      <th scope="col">Codigo</th>
+                      <th scope="col">Código</th>
                       <th scope="col">Nombre Licencia</th>
                       <th scope="col">Tipo Licencia</th>
-                      <th scope="col">Valor Unitario</th>
-                      <th scope="col">Edición</th>
+                      <th style="text-align: right;"scope="col">Valor Unitario</th>
+                      <th style="text-align: center;" scope="col">Acciones</th>
                   </tr>
               </thead>
               <tbody>
@@ -21,8 +21,8 @@
                       <td scope="row">{{licencia.cod_lic}}</td>
                       <td>{{licencia.nom_lic}}</td>
                       <td>{{licencia.tipo_lic}}</td>
-                      <td>{{licencia.costo_uf}}</td>
-                      <td>
+                      <td style="text-align: right;">{{licencia.costo_uf|floatformat:0}}</td>
+                      <td style="text-align: center;">
                           <a name="" id="" class="btn btn-primary" href="edicionLicencia/{{licencia.cod_lic}}" role="button">Editar</a>
                           <a name="" id="" class="btn btn-danger" href="eliminarLicencia/{{licencia.cod_lic}}" role="button">Eliminar</a>
                       </td>
@@ -31,7 +31,7 @@
               </tbody>
           </table>
           <div class="container">
-            <a name="" id="" class="btn btn-primary" href="registrarLicencia/" role="button">Añadir Servicio</a>
+            <a name="" id="" class="btn btn-primary" href="registrarLicencia/" role="button">Añadir Licencia</a>
           </div>
       </div>
     </div>

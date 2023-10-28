@@ -1,17 +1,18 @@
 {% load humanize %}
+{% load mathfilters %}
 <hr>
 <div class="row">
     <div class="col">
-        <h2 id="detalle_ancla">Detalle de Cálculo</h2>
         <div class="container">
             {% block content %}
             <table class="table table-stripe" id="detalle_tabla">
+                <h2 id="detalle_ancla">Detalle de Cálculo</h2>
                 <thead>
                     <tr>
                         <th scope="col">Recurso</th>
                         <th style="text-align: center;" scope="col">Especificación</th>
                         <th scope="col">Unidad</th>
-                        <th style="text-align: right;" scope="col">Monto Total</th>
+                        <th style="text-align: right;" scope="col">Monto</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -21,14 +22,20 @@
                         <td style="text-align: center;">
                             <label>{{nom_servidor}}</label>
                         </td>
-                        <td> {{cant_serv}} </td>
+                        {% if cant_serv %}
+                            <td>{{cant_serv}}</td>
+                        {% else%}
+                            <td><span>Sin nombre aún</span></td>
+                        {% endif %}
                     </tr>
                     <tr>
                         <td>Valor UF</td>
                         <td style="text-align: center;">
-                            <label>{{ value }}</label>
+                            --
                         </td>
-                        <td> CLP </td>
+                        <td> -- </td>
+                        <td style="text-align: right;">$ {{value|floatformat:0}}</td>
+                        <td>CLP</td>
                     </tr>
                     <tr>
                         <td>CPU</td>
@@ -51,6 +58,23 @@
                         <td style="text-align: right;">{{ resultado_dd }}</td>
                         <td>UF</td>
                     </tr>
+                    <!-- tr dinamico -->
+                    {% for recurso in list_recursos %}
+                        <tr>
+                            {% if recurso.cod_rec > 5 %}
+                                <td>{{recurso.nom_rec}}</td>
+                                <td style="text-align: center;">
+                                    {{ recurso.cantidad }}
+                                </td>
+                                <td>{{recurso.unidad}}</td>
+                                <td style="text-align: right;">
+                                    {{ recurso.cantidad|floatformat:2|mul:recurso.valor_unit|floatformat:2 }}
+                                </td>
+                                <td>UF</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    <!-- fin tr dinamico -->
                     <tr>
                         <td><hr></td>
                         <td>Subtotal en UF (Recursos)</td>
@@ -59,36 +83,67 @@
                         <td><b>UF</b></td>
                     </tr>
                     <tr>
-                        <th scope="col">Servicio</th>
-                        <th scope="col">Especificación</th>
-                        <th scope="col">Monto Total</th>
-                        <th scope="col"></th>
+                        <td><hr></td>
+                        <td><hr></td>
+                        <td><hr></td>
+                        <td><hr></td>
+                        <td><hr></td>
+
                     </tr>
+                    {% if valores %}
+                        <tr>
+                            <th scope="col">Servicio</th>
+                            <th scope="col">Especificación</th>
+                            <td></td>
+                            <th scope="col" style="text-align: right;">Monto</th>
+                        </tr>
+                    {% else %}
+                        <tr></tr>
+                    {% endif %}
                     {% for box, valor in valores %}
                         <tr>
-                            <td>Servicios</td>
                             <td>{{box}}</td>
-                            <td style="text-align: right;">$ {{valor}}</td>
-                            <td>CLP</td>
+                            <td>100%</td>
+                            <td></td>
+                            <td style="text-align: right;"><b>$ {{valor}}</b></td>
+                            <td><b>CLP</b></td>
                         </tr>
                     {% endfor %}
-                    <tr>
-                        <th scope="col">Licencia</th>
-                        <th scope="col">Especificación</th>
-                        <th scope="col">Monto</th>
-                        <th scope="col"></th>
-                    </tr>
+                    {% if valores_lic %}
+                        <tr>
+                            <th scope="col">Licencia</th>
+                            <th scope="col">Especificación</th>
+                            <th></th>
+                            <th scope="col" style="text-align: right;">Monto</th>
+                        </tr>
+                    {% else %}
+                        <tr></tr>
+                    {% endif %}
                     {% for box1, valor in valores_lic %}
                         <tr>
-                            <td>Licencias</td>
                             <td>{{box1}}</td>
-                            <td style="text-align: right;">$ {{valor}}</td>
-                            <td>CLP</td>
+                            {% if box1 in list_licencia.tipo_lic %}
+                                <td>licencia.tipo_lic</td>
+                            {% else %}
+                                <td>Aplica</td>
+                            {% endif %}
+                            <td></td>
+                            <td style="text-align: right;"><b>$ {{valor|floatformat:0}}</b></td>
+                            <td><b>CLP</b></td>
                         </tr>
                     {% endfor %}
                     <tr>
                         <td><hr></td>
-                        <td>Total en CLP</td>
+                        <td><hr></td>
+                        <td><hr></td>
+                        <td><hr></td>
+                        <td><hr></td>
+
+                    </tr>
+                    <tr>
+                        <td><hr></td>
+                        <td>Monto Total <b>(Recursos + Servicio y/o Licencias)</b></td>
+                        <td></td>
                         <td style="text-align: right;"><b>$ {{ total }}</b></td>
                         <td><b>CLP</b></td>
                     </tr>
@@ -109,7 +164,7 @@
                     {% csrf_token %}
                     <input class="btn btn-warning" type="submit" name='limpiar' value="Limpiar">
                     <button class="btn btn-secondary" type="button" id="btnCopiarTabla">Copiar Tabla</button>
-                    <button class="btn btn-primary" type="submit" id="btnGuardar">Guardar en BBDD</button>
+                    <button class="btn btn-primary" type="button" id="btnExportarExcel">Exportar a Excel</button>
                 </form>
                 <!-- <button class="btn btn-danger" type="submit" name='limpiar' value="">Actualizar Valor API</button> -->
             </div>

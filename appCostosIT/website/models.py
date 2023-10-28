@@ -56,6 +56,7 @@ class Recurso (models.Model):
     cod_rec = models.BigAutoField(primary_key=True)
     nom_rec = models.CharField(max_length=45)
     unidad = models.CharField(max_length=5, default=1)
+    cantidad = models.IntegerField(default=1)
     valor_unit = models.FloatField(default=0)
     user_crea = models.CharField(max_length=45, null=True)
     user_mod = models.CharField(max_length=45, null=True)
@@ -93,6 +94,9 @@ class servidor_has_recurso(models.Model):
     cod_rec = models.ForeignKey(Recurso, on_delete=models.CASCADE)
     cantidad = models.IntegerField()
     valor = models.IntegerField()
+
+    def __int__(self):
+        return int(self.cod_serv)
 
 #Integración de valores necesarios a servidor_has_recurso
 
@@ -176,8 +180,8 @@ class servidor_has_recurso_edit(models.Model):
     ram_valor = models.FloatField(default=0) #Valor
     monto = models.IntegerField(default=0) #Suma valores
 
-    def __str__(self):
-        return self.id
+    def __int__(self):
+        return (self.id)
     
 class UFValue(models.Model):
     value = models.FloatField()

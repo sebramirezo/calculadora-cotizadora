@@ -8,25 +8,29 @@
         <h2>Añadir Licencia</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/registrarLicencia/" method="POST">{% csrf_token %}
-                    <div class="form-group">
+                <form onsubmit="return validateForm1()" action="/registrarLicencia/" method="POST">{% csrf_token %}
+                    <div class="form-group" hidden>
+                        <label for="">Código Autoincrementable</label>
                         <input type="text" name="cod_lic" value="{{licencias.cod_lic}}" class="form-control" placeholder="Código"
                             minlength="1" maxlength="6" readonly>
                     </div>
                     <div class="form-group">
+                        <label for="">Nombre de la Licencia</label>
                         <input type="text" name="nom_lic" value="{{licencias.nom_lic}}" class="form-control" placeholder="Nombre"
                             maxlength="50" required>
                     </div>
                     <div class="form-group">
+                        <label for="">Tipo de Licencia</label>
                         <input type="text" name="tipo_lic" value="{{licencias.tipo_lic}}" class="form-control" placeholder="Tipo"
                             maxlength="50" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="costo_uf" value="{{licencias.costo_uf}}" class="form-control" placeholder="Valor" min="1" max="9"
+                        <label for="">Valor Unitario</label>
+                        <input type="text" name="costo_uf" id="costo_uf" value="{{licencias.costo_uf}}" class="form-control" placeholder="Valor" min="1" max="9"
                             value="1" required>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        <button type="submit" class="btn btn-success btn-block text-white m-2">Guardar</button>
                     </div>
                 </form>
             </div>

@@ -6,8 +6,8 @@
         <h2>Edición de Servicio de HH</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/editarServicio/" method="POST">{% csrf_token %}
-                    <div class="form-group">
+                <form id="formServicio" onsubmit="return validateForm3()" action="/editarServicio/" method="POST">{% csrf_token %}
+                    <div class="form-group" hidden>
                         <label for="">Código Autoincrementable</label>
                         <input type="text" name="cod_servicio" value="{{servicios.cod_servicio}}" class="form-control" placeholder="Código"
                             minlength="6" maxlength="6" readonly required>
@@ -19,7 +19,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Valor Unitario</label>
-                        <input type="text" name="valor_unit" value="{{servicios.valor_unit}}" class="form-control" min="1" max="9"
+                        <input type="text" name="valor_unit" id="valor_unit" value="{{servicios.valor_unit}}" class="form-control" min="1" max="9"
                             value="1" required>
                     </div>
                     <div class="form-group">

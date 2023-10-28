@@ -8,15 +8,15 @@
         <h2>Editar Valor CPU</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/edicionCpuValue/" method="POST">{% csrf_token %}
+                <form id="formCPU" onsubmit="return validateForm4()" action="/editarCpuValue/" method="POST">{% csrf_token %}
                     <div class="form-group">
-                        <label for="">Código Autoincrementable</label>
+                        <label for="">Código Autoincrementable (Sólo Lectura)</label>
                         <input type="text" name="cod_value" value="{{cpuValues.cod_value}}" class="form-control" placeholder="Código"
                             minlength="1" maxlength="6" readonly required>
                     </div>
                     <div class="form-group">
                         <label for="">Cantidad vCPU (Solo Número)</label>
-                        <input type="text" name="label" value="{{cpuValues.label}}" class="form-control" placeholder="Ingresa valor"
+                        <input type="number" name="label" id="value" value="{{cpuValues.label}}" class="form-control" placeholder="Ingresa valor"
                             maxlength="50" required>
                     </div>
                     <div class="form-group">

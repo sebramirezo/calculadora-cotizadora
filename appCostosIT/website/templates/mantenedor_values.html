@@ -5,19 +5,20 @@
     <h1>Mantenedor de Valores Disco Duro (ddValues)</h1>
     <div class="mantenedor">
       <div class="table-responsive">
-          <table class="table table-primary">
+          <table class="table table-striped">
               <thead>
                   <tr>
                       <th scope="col">Código</th>
-                      <th scope="col">Valor</th>
+                      <th style="text-align: right;" scope="col">Valor</th>
+                      <th style="text-align: center;" scope="col">Acciones</th>
                   </tr>
               </thead>
               <tbody>
                   {% for value in ddValues %}
                   <tr class="">
                       <td scope="row">{{value.cod_value}}</td>
-                      <td>{{value.label}}</td>
-                      <td>
+                      <td style="text-align: right;">{{value.label}}</td>
+                      <td style="text-align: center;">
                           <a name="" id="" class="btn btn-primary" href="edicionDdValue/{{value.cod_value}}" role="button">Editar</a>
                           <a name="" id="" class="btn btn-danger" href="eliminarDdValue/{{value.cod_value}}" role="button">Eliminar</a>
                       </td>
@@ -36,19 +37,20 @@
     <h1>Mantenedor de Valores Memoria Ram (ramValues)</h1>
     <div class="mantenedor">
       <div class="table-responsive">
-          <table class="table table-primary">
+          <table class="table table-striped">
               <thead>
                   <tr>
                       <th scope="col">Código</th>
-                      <th scope="col">Valor</th>
+                      <th style="text-align: right;" scope="col">Valor</th>
+                      <th style="text-align: center;" scope="col">Acciones</th>
                   </tr>
               </thead>
               <tbody>
                   {% for value in ramValues %}
                   <tr class="">
                       <td scope="row">{{value.cod_value}}</td>
-                      <td>{{value.label}}</td>
-                      <td>
+                      <td style="text-align: right;">{{value.label}}</td>
+                      <td style="text-align: center;">
                           <a name="" id="" class="btn btn-primary" href="edicionRamValue/{{value.cod_value}}" role="button">Editar</a>
                           <a name="" id="" class="btn btn-danger" href="eliminarRamValue/{{value.cod_value}}" role="button">Eliminar</a>
                       </td>
@@ -67,19 +69,20 @@
     <h1>Mantenedor de Valores vCPU (cpuValues)</h1>
     <div class="mantenedor">
       <div class="table-responsive">
-          <table class="table table-primary">
+          <table class="table table-striped">
               <thead>
                   <tr>
                       <th scope="col">Código</th>
-                      <th scope="col">Valor</th>
+                      <th style="text-align: right;" scope="col">Valor</th>
+                      <th style="text-align: center;" scope="col">Acciones</th>
                   </tr>
               </thead>
               <tbody>
                   {% for value in cpuValues %}
                   <tr class="">
                       <td scope="row">{{value.cod_value}}</td>
-                      <td>{{value.label}}</td>
-                      <td>
+                      <td style="text-align: right;">{{value.label}}</td>
+                      <td style="text-align: center;">
                           <a name="" id="" class="btn btn-primary" href="edicionCpuValue/{{value.cod_value}}" role="button">Editar</a>
                           <a name="" id="" class="btn btn-danger" href="eliminarCpuValue/{{value.cod_value}}" role="button">Eliminar</a>
                       </td>

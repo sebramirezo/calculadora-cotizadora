@@ -8,8 +8,8 @@
         <h2>Añadir Servicio de HH</h2>
         <div class="card">
             <div class="card-body">
-                <form action="/registrarServicio/" method="POST">{% csrf_token %}
-                    <div class="form-group">
+                <form  onsubmit="return validateForm3()" action="/registrarServicio/" method="POST">{% csrf_token %}
+                    <div class="form-group" hidden>
                         <label for="">Código Autoincrementable</label>
                         <input type="text" name="cod_servicio" value="{{servicios.cod_servicio}}" class="form-control" placeholder="Código"
                             minlength="1" maxlength="6" readonly required>
@@ -21,11 +21,16 @@
                     </div>
                     <div class="form-group">
                         <label for="">Valor Unitario</label>
-                        <input type="text" name="valor_unit" value="{{servicios.valor_unit}}" class="form-control" placeholder="Valor" min="1" max="9"
+                        <input type="text" name="valor_unit" id="valor_unit" value="{{servicios.valor_unit}}" class="form-control" placeholder="Valor" min="1" max="9"
+                            value="1" required>
+                    </div>
+                    <div class="form-group" hidden>
+                        <label for="">Estado</label>
+                        <input type="text" name="estado" id="estado" value="false" class="form-control" placeholder="Valor" min="1" max="9"
                             value="1" required>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                        <button type="submit" class="btn btn-success btn-block text-white m-2">Guardar</button>
                     </div>
                 </form>
             </div>
