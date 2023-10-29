@@ -9,6 +9,10 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required, permission_required
 
+"""
+Recomiendo altamente utilizar ChatGPT para entender el código
+"""
+
 
 def redirect_login(request):
     return redirect('login')
@@ -25,6 +29,9 @@ def error_404_view(request):
 
 ####################################################################
 def index(request):
+    """
+    Función principal que manda toda la operación del cálculo. Se llaman las funciones, objectos de la base de datos, inicialización de formularios
+    """
     # Obtener los resultados de las funciones
     resultado_dd = getResultDD(request)
     resultado_cpu = getResultCpu(request)
@@ -70,6 +77,10 @@ def index(request):
     cantidades = {}
     valores_dinam = []
     # cantidad_rec = request.POST.get('cantidad', 0)
+    """
+    El código que sigue tiene la lógica de los recursos dínamicos, y esto es para que se actualice directamente a la base de datos la cantidad
+    que es la operación entre cantidad que recoge del post por el valor unitario del recurso dinamico
+    """
     for recurso in recursos:
         if recurso.cod_rec > 5:
             cantidad_rec = request.POST.get('cantidad'+str(recurso.cod_rec), 0)
@@ -180,6 +191,9 @@ def index(request):
     ##################################
 @login_required
 def mantenedorRecurso(request):
+    """
+    Función que trae todos los objectos de Recursos mediante ORM y renderiza la página de mantenedor Recurso
+    """
     recursos = Recurso.objects.all()
     context = {
         'recursos':recursos
@@ -188,6 +202,9 @@ def mantenedorRecurso(request):
 
 @login_required
 def registrarRecurso(request):
+    """
+    Función que permite registrar Recursos mediante los Forms de Django (RecursoForm())
+    """
 
     form_reg_recurso = RecursoForm()
 
@@ -363,6 +380,10 @@ def eliminarLicencia(request, cod_lic):
 
 
 def get_result(request, resource_name, resource_id, resource_values):
+    """
+    Función parametrizada que devuelve la operación entre el valor escogido por el usuario en los combobox por el valor unitario de cada recurso
+    Si el Usuario escoge en Procesador: 1 este valor 1 es multiplicado por el valor unitario del recurso Procesador.
+    """
     result = 0
     form = servidor_has_recurso_editForm(request.POST)
 
@@ -413,6 +434,10 @@ def getResultDD(request):
     return result
 
 def getResultRecursosDinamicos(request):
+    """
+    Función que retorna el resultado como valor de salida de los recursos con id mayor a 5. Por que mayor a 5? Porque los valores son 1: CPU, 3: RAM, 5:DD.
+    Despues del 5 empiezan todos los valores que les llamo dinamicos porque son valores que se pueden agregar o eliminar a disposición del usuario, los otros no. 
+    """
     recursos = Recurso.objects.all()
     total_array = []
     total = 0
@@ -426,6 +451,9 @@ def getResultRecursosDinamicos(request):
     return total
 
 def getSumRecursosDinamicos(request):
+    """
+    Función que retorna la suma de los recursos dinamicos
+    """
     recursos = Recurso.objects.all()
     total = 0
     
@@ -437,6 +465,9 @@ def getSumRecursosDinamicos(request):
     return total
 
 def getSumMonto(request):
+    """
+    Función que obtiene la suma total en UF de los recursos CPU, RAM, Disco Duro y Recursos Dinamicos
+    """
     dd_label = 0
     cpu_label = 0
     ram_label = 0
@@ -449,6 +480,10 @@ def getSumMonto(request):
     return suma
 
 def getSumMonto_CLP(request):
+    """
+    Función que llama a las funciones de: recurso, recursos dinamicos, servicios y licencias;
+    variables de cantidad servidores y valor uf, las procesa y suma para obtener la suma total en CLP
+    """
     dd_label = 0
     cpu_label = 0
     ram_label = 0
@@ -473,15 +508,29 @@ def getSumMonto_CLP(request):
 
 
 def getSumServicios(request):
-    list_servicios = Servicio.objects.all()
-    boxes = request.POST.getlist('boxes')
-    boxes_int = [int(box) for box in boxes]
-    servicios_dict = {servicio.cod_servicio: servicio.valor_unit for servicio in list_servicios}
-    servicios_dict_nombres = {servicio.cod_servicio: servicio.nom_servicio for servicio in list_servicios}
+    """
+    Esta función retorna la suma (float) de los valores unitarios pertenecientes a los servicios que selecciona el usuario.
+    A diferencia de getSumLicencia, esta función tiene otra forma del código, pero exactamente el mismo funcionamiento.
+    """
+    #Inicializamos las variables
     valores = []
     suma = 0.0
 
+    #Traemos los datos de la base de datos y actualizamos el valor de estado a False para aplicar la lógica de los checkbox (si se apreta el check al calcular se actualiza a True)
+    list_servicios = Servicio.objects.all()
     list_servicios.update(estado=False)
+
+    #Obtener datos del POST: Al seleccionar y calcular el POST trae los valores de boxes_lic y estos son almacenados en una lista llamada boxes_lic
+    boxes = request.POST.getlist('boxes')
+    boxes_int = [int(box) for box in boxes]
+
+    #Creación de diccionario: Se crea servicios_dict para traer guardar el valor unitario e id en un diccionario
+    servicios_dict = {servicio.cod_servicio: servicio.valor_unit for servicio in list_servicios}
+    
+    #Creación de lista que almacenará el nombre de cada servicio y código
+    servicios_dict_nombres = {servicio.cod_servicio: servicio.nom_servicio for servicio in list_servicios}
+    
+    #Se está haciendo: por cada boxes_int encontrado en el POST guarde en valores su nombre y valor unitario
     for box in boxes_int:
         valor_unit = servicios_dict.get(box, 0)  # Valor por defecto es 0 si no se encuentra
         nombre = servicios_dict_nombres.get(box, 'Nombre no encontrado')
@@ -489,6 +538,7 @@ def getSumServicios(request):
         valores.append((nombre, valor_unit))
         print('Este out corresponde a valores.append: ' + str(valores))
 
+    #Iteración para realizar la suma de todas los servicios que el usuario chequea
     for val in valores:
         valor = val[1]
         suma += valor
@@ -496,23 +546,36 @@ def getSumServicios(request):
     return suma
 
 def getSumLicencia(request):
+    """
+    Esta función retorna la suma (float) de los valores unitarios pertenecientes a las licencias que selecciona el usuario. 
+    """
+    #Inicializamos las variables
     valores_lic = []
     suma = 0.0
 
+    #Traemos los datos de la base de datos y actualizamos el valor de estado a False para aplicar la lógica de los checkbox (si se apreta el check al calcular se actualiza a True)
     list_licencias = Licencia.objects.all()
     list_licencias.update(estado=False)
 
+    #Obtener datos del POST: Al seleccionar y calcular el POST trae los valores de boxes_lic y estos son almacenados en una lista llamada boxes_lic
+    #Se está haciendo: por cada boxes_lic encontrado en el POST, transformalo a int y guardalo en boxes_lic
     boxes_lic = [int(box) for box in request.POST.getlist('boxes_lic')]
+
+    #Creación de diccionario: Se crea licencias_dict para traer guardar el nombre e id en un diccionario
     licencias_dict = {licencia.cod_lic: licencia for licencia in list_licencias}
+
+    #Creación de lista que almacenará el valor unitario (costo_uf) y nombre de cada Licencia
     valores_lic = [(licencias_dict[box].nom_lic, licencias_dict[box].costo_uf) for box in boxes_lic]
 
+    #Iteración para realizar la suma de todas las licencias que el usuario chequea
     for val in valores_lic:
         valor = val[1]
         suma += valor
 
+    #Esta función retorna la suma de todas las licencias
     return suma
 
-## Mantenedores de ddValues, cpuValues y ramValues
+########################### Mantenedores de ddValues, cpuValues y ramValues ###########################
 @login_required
 def mantenedorValues(request):
     ddValues = DdValues.objects.all()

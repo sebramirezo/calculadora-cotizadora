@@ -87,6 +87,8 @@
     <!-- <div id="uc-global-footer"></div> -->
   </body>
   <footer>
+  {# Los siguientes values-counts permiten hacer dinámicos el conteo de la cantidad de valores que hay en las tablas #}
+  {# Esto servia solo para los botones de sumar y restar, pero los he desactivado por fallas en el funcionamiento pero dejo la logica en scripts_js_botones.html #}
     <div id="dd-values-count" data-count="{{ dd_values_count }}"></div>
     <div id="ram-values-count" data-count="{{ ram_values_count }}"></div>
     <div id="cpu-values-count" data-count="{{ cpu_values_count }}"></div>
@@ -101,7 +103,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.2/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
   <script>
-
+    //Este código permite copiar la tabla de detalle para el uso que estime el usuario, puede copiarse en excel, word, etc. 
     document.getElementById('btnCopiarTabla').addEventListener('click', function () {
       // Selecciona la tabla
       var tabla = document.getElementById('detalle_tabla');
@@ -121,6 +123,8 @@
       // Deselecciona la tabla
       window.getSelection().removeAllRanges();
     });
+
+    // Esta función como dice exporta a excel el detalle del calculo.
     document.getElementById('btnExportarExcel').addEventListener('click', function () {
       // Supongamos que copiedTableData contiene los datos copiados de la tabla (como lo hace en tu código original).
       var copiedTableData = document.getElementById('detalle_tabla');
@@ -164,6 +168,8 @@
       return buf;
     }
 
+    // Las funciones que se ven desde aqui hacia abajo son todas relacionadas con la validación por JS para todos los input donde el usuario
+    // puede ingresar datos numericos. Se valida que son sean negativos y si tienen puntos o comas se los quita.
     function validateForm() {
       var inputValue = document.getElementById("value").value;
       var inputCantServ = document.getElementById("id_cant_serv").value;

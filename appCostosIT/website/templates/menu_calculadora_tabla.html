@@ -1,3 +1,4 @@
+{# Este template contiene la lógica que se muestra para realizar el cálculo #}
 {% block content %}
 <hr>
 <div class="col">
@@ -99,6 +100,10 @@
                                 {% endfor %}
                             </td>
                         </tr>
+                        {% comment %}
+                        El siguiente código permite mostrar dinamicamente los recursos que se agregan en Recursos. Es desde mayor a 5 porque los desde este codigo
+                        empiezan los valores dinamicos (Especifico esto en el word)
+                        {% endcomment %}
                         <!-- tr con for -->
                         {% for recurso in list_recursos %}
                             {% if recurso.cod_rec > 5 %}
